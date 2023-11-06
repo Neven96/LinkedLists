@@ -250,6 +250,14 @@ public class LinkedLists<T>
         {
             throw new IndexOutOfRangeException("Index is out of bounds!");
         }
+        if (index == 0)
+        {
+            return GetFirst();
+        }
+        if (index == this.len - 1)
+        {
+            return GetLast();
+        }
 
         current_node = this.head;
 
