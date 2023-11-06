@@ -129,8 +129,10 @@ public class LinkedLists<T> {
         } else {
             deleted_node = this.head;
             next_node = deleted_node.next;
+
             deleted_node.next = null;
             next_node.prev = null;
+
             this.head = next_node;
         }
 
@@ -151,8 +153,10 @@ public class LinkedLists<T> {
         } else {
             deleted_node = this.tail;
             prev_node = deleted_node.prev;
-            prev_node.next = null;
+
             deleted_node.prev = null;
+            prev_node.next = null;
+
             this.tail = prev_node;
         }
         
@@ -227,6 +231,12 @@ public class LinkedLists<T> {
         }
         if (index >= this.len || index < 0) {
             throw new ArrayIndexOutOfBoundsException("Index is out of bounds!");
+        }
+        if (index == 0) {
+            return getFirst();      
+        }
+        if (index == this.len-1) {
+            return getLast();  
         }
 
         current_node = this.head;
