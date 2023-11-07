@@ -1,15 +1,4 @@
-class Node:
-    def __init__(self, data):
-        """
-        Initializes a Node element with value data and empty next and prev.
-
-        Args:
-            data: any type of data you want in the node. 
-        """
-
-        self.value = data
-        self.next = None
-        self.prev = None
+from node import Node
 
 class LinkedList:
     def __init__(self):
@@ -23,10 +12,32 @@ class LinkedList:
 
     # 
     # 
+    # SETTERS
+    # 
+    # 
+    def set_head(self, node: object) -> None:
+        self.head = node
+
+    def set_tail(self, node: object) -> None:
+        self.tail = node
+
+    # 
+    # 
+    # LENGTH MANIPULATION
+    # 
+    # 
+    def increase_length(self) -> None:
+        self.length += 1
+
+    def decrease_length(self) -> None:
+        self.length -= 1
+
+    # 
+    # 
     # INSERT NODES
     # 
     # 
-    def insertFirst(self, data) -> None:
+    def insert_first(self, data: any) -> None:
         """
         Inserts Node at the front of the list.
 
@@ -37,16 +48,16 @@ class LinkedList:
         new_node = Node(data)
 
         if self.head is None:
-            self.head = new_node
-            self.tail = new_node
+            self.set_head(new_node)
+            self.set_tail(new_node)
         else:
-            new_node.next = self.head
-            self.head.prev = new_node
-            self.head = new_node
+            new_node.set_next(self.head)
+            self.head.set_prev(new_node)
+            self.set_head(new_node)
 
-        self.length += 1
+        self.increase_length()
 
-    def insertLast(self, data) -> None:
+    def insert_last(self, data: any) -> None:
         """
         Inserts Node at the back of the list.
 
@@ -57,16 +68,16 @@ class LinkedList:
         new_node = Node(data)
 
         if self.head is None:
-            self.head = new_node
-            self.tail = new_node
+            self.set_head(new_node)
+            self.set_tail(new_node)
         else:
-            new_node.prev = self.tail
-            self.tail.next = new_node
-            self.tail = new_node
+            new_node.set_prev(self.tail)
+            self.tail.set_next(new_node)
+            self.set_tail(new_node)
 
-        self.length += 1
+        self.increase_length()
 
-    def insertMiddle(self, index, data) -> None:
+    def insert_middle(self, index: int, data: any) -> None:
         """
         Inserts Node at the stated index in the list.
 
@@ -84,9 +95,11 @@ class LinkedList:
         if (index > self.length and self.length > 0) or index < 0:
             raise IndexError("Index out of bounds")
         if index == 0:
-            self.insertFirst(data)
+            self.insert_first(data)
+            return
         if index == self.length:
-            self.insertLast(data)
+            self.insert_last(data)
+            return
 
         count = 0
         prev_node = self.head
@@ -97,20 +110,21 @@ class LinkedList:
 
         next_node = prev_node.next
 
-        new_node.prev = prev_node
-        new_node.next = next_node
+        # Update next and prev
+        new_node.set_next(next_node)
+        new_node.set_prev(prev_node)
 
-        prev_node.next = new_node
-        next_node.prev = new_node
+        prev_node.set_next(new_node)
+        next_node.set_prev(new_node)
 
-        self.length += 1
+        self.increase_length()
 
     # 
     # 
     # REMOVE NODES
     # 
     # 
-    def removeFirst(self) -> None:
+    def remove_first(self) -> None:
         """
         Removes the node at the front of the list.
         """
@@ -119,21 +133,21 @@ class LinkedList:
             raise IndexError("List is empty")
         
         if self.length == 1:
-            self.head = None
-            self.tail = None
+            self.set_head(None)
+            self.set_tail(None)
         else:
             deleted_node = self.head
             next_node = deleted_node.next
 
-            deleted_node.next = None
-            next_node.prev = None
+            deleted_node.set_next(None)
+            next_node.set_prev(None)
 
-            self.head = next_node
+            self.set_head(next_node)
 
-        self.length -= 1
+        self.decrease_length()
         
     
-    def removeLast(self) -> None:
+    def remove_last(self) -> None:
         """
         Removes the node at the back of the list.
         """
@@ -142,20 +156,20 @@ class LinkedList:
             raise IndexError("List is empty")
         
         if self.length == 1:
-            self.head = None
-            self.tail = None
+            self.set_head(None)
+            self.set_tail(None)
         else:
             deleted_node = self.tail
             prev_node = deleted_node.prev
 
-            deleted_node.prev = None
-            prev_node.next = None
+            deleted_node.set_prev(None)
+            prev_node.set_next(None)
 
-            self.tail = prev_node
+            self.set_tail(prev_node)
 
-        self.length -= 1
+        self.decrease_length()
     
-    def removeFromIndex(self, index) -> None:
+    def remove_from_index(self, index: int) -> None:
         """
         Removes the node at stated index of the list.
 
@@ -168,9 +182,11 @@ class LinkedList:
         if (index > self.length and self.length > 0) or index < 0:
             raise IndexError("Index out of bounds")
         if index == 0:
-            self.removeFirst()
+            self.remove_first()
+            return
         if index == self.length-1:
-            self.removeLast()
+            self.remove_last()
+            return
 
         prev_node = self.head
 
@@ -183,20 +199,21 @@ class LinkedList:
         deleted_node = prev_node.next
         next_node = deleted_node.next
 
-        deleted_node.prev = None
-        deleted_node.next = None
+        # Update next and prev
+        deleted_node.set_next(None)
+        deleted_node.set_prev(None)
 
-        next_node.prev = prev_node
-        prev_node.next = next_node
+        prev_node.set_next(next_node)
+        next_node.set_prev(prev_node)
 
-        self.length -= 1
+        self.decrease_length()
 
     # 
     # 
     # GET NODE VALUES
     # 
     # 
-    def getFirst(self) -> any:
+    def get_first(self) -> any:
         """
         Returns the head value of the list.
 
@@ -209,7 +226,7 @@ class LinkedList:
         
         return self.head.value
     
-    def getLast(self) -> any:
+    def get_last(self) -> any:
         """
         Returns the tail value of the list.
 
@@ -222,7 +239,7 @@ class LinkedList:
         
         return self.tail.value
     
-    def getValueFromIndex(self, index) -> any:
+    def get_value_from_index(self, index: int) -> any:
         """
         Returns the value of the Node from the stated index.
 
@@ -238,9 +255,9 @@ class LinkedList:
         if (index > self.length and self.length > 0) or index < 0:
             raise IndexError("Index out of bounds")
         if index == 0:
-            return self.getFirst()
+            return self.get_first()
         if index == self.length-1:
-            return self.getLast()
+            return self.get_last()
         
         current_node = self.head
 
@@ -252,7 +269,7 @@ class LinkedList:
 
         return current_node.value
     
-    def getLength(self) -> int:
+    def __len__(self) -> int:
         """
         Returns the length of the list
 
@@ -271,11 +288,11 @@ class LinkedList:
 
         if self.head == None:
             raise IndexError("List is empty")
+        
+        current_node = self.head
 
         out_string = "["
-        out_string += str(self.head.value)
-
-        current_node = self.head
+        out_string += str(current_node.value)
 
         while current_node.next is not None:
             current_node = current_node.next
@@ -285,12 +302,3 @@ class LinkedList:
         out_string += "]"
 
         return out_string
-
-
-if __name__ == "__main__":
-    linked_list = LinkedList()
-    linked_list.insertFirst(1)
-    linked_list.insertFirst(2)
-    linked_list.insertLast(9)
-    print(linked_list.getFirst())
-    print(linked_list)
