@@ -124,7 +124,7 @@ class LinkedList:
     # REMOVE NODES
     # 
     # 
-    def remove_first(self) -> None:
+    def remove_first(self) -> object:
         """
         Removes the node at the front of the list.
         """
@@ -132,11 +132,12 @@ class LinkedList:
         if self.head is None:
             raise IndexError("List is empty")
         
+        deleted_node = self.head
+
         if self.length == 1:
             self.set_head(None)
             self.set_tail(None)
         else:
-            deleted_node = self.head
             next_node = deleted_node.next
 
             deleted_node.set_next(None)
@@ -145,9 +146,11 @@ class LinkedList:
             self.set_head(next_node)
 
         self.decrease_length()
+
+        return deleted_node.value
         
     
-    def remove_last(self) -> None:
+    def remove_last(self) -> object:
         """
         Removes the node at the back of the list.
         """
@@ -155,11 +158,12 @@ class LinkedList:
         if self.head is None:
             raise IndexError("List is empty")
         
+        deleted_node = self.tail
+
         if self.length == 1:
             self.set_head(None)
             self.set_tail(None)
         else:
-            deleted_node = self.tail
             prev_node = deleted_node.prev
 
             deleted_node.set_prev(None)
@@ -168,8 +172,10 @@ class LinkedList:
             self.set_tail(prev_node)
 
         self.decrease_length()
+
+        return deleted_node.value
     
-    def remove_from_index(self, index: int) -> None:
+    def remove_from_index(self, index: int) -> object:
         """
         Removes the node at stated index of the list.
 
@@ -207,6 +213,8 @@ class LinkedList:
         next_node.set_prev(prev_node)
 
         self.decrease_length()
+
+        return deleted_node.value
 
     # 
     # 
@@ -259,15 +267,24 @@ class LinkedList:
         if index == self.length-1:
             return self.get_last()
         
-        current_node = self.head
+        cur_node = self.head
 
         count = 0
 
         while index > count:
-            current_node = current_node.next
+            cur_node = cur_node.next
             count += 1
 
-        return current_node.value
+        return cur_node.value
+    
+    def __node_iter(self):
+        cur_node = self.head
+        while cur_node is not None:
+            yield cur_node
+            cur_node = cur_node.next
+    
+    def __iter__(self):
+        return iter(map(lambda cur_node: cur_node.value, self.__node_iter()))
     
     def __len__(self) -> int:
         """
@@ -286,19 +303,4 @@ class LinkedList:
             str: a string looking like an array, not actual array.
         """
 
-        if self.head == None:
-            raise IndexError("List is empty")
-        
-        current_node = self.head
-
-        out_string = "["
-        out_string += str(current_node.value)
-
-        while current_node.next is not None:
-            current_node = current_node.next
-            out_string += ", "
-            out_string += str(current_node.value)
-
-        out_string += "]"
-
-        return out_string
+        return "[{}]".format(", ".join(map(str, self)))
