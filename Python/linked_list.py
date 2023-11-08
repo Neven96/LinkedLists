@@ -148,7 +148,6 @@ class LinkedList:
         self.decrease_length()
 
         return deleted_node.value
-        
     
     def remove_last(self) -> object:
         """
