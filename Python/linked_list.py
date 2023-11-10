@@ -184,7 +184,7 @@ class LinkedList:
 
         if self.head is None and index > 0:
             raise IndexError("List is empty, index out of bounds")
-        if (index > self.length and self.length > 0) or index < 0:
+        if (index >= self.length and self.length > 0) or index < 0:
             raise IndexError("Index out of bounds")
         if index == 0:
             self.remove_first()
@@ -259,7 +259,7 @@ class LinkedList:
 
         if self.head is None and index > 0:
             raise IndexError("List is empty, index out of bounds")
-        if (index > self.length and self.length > 0) or index < 0:
+        if (index >= self.length and self.length > 0) or index < 0:
             raise IndexError("Index out of bounds")
         if index == 0:
             return self.get_first()
