@@ -1,9 +1,8 @@
 public class LinkedLists<T>
 {
-    Node<T>? head;
-    Node<T>? tail;
-
-    int len;
+    Node<T>? head { get; set; }
+    Node<T>? tail { get; set; }
+    int len { get; set; }
 
     public LinkedLists()
     {

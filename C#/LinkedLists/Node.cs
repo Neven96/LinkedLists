@@ -1,8 +1,8 @@
 public class Node<T>
 {
-    public T? value;
-    public Node<T>? next;
-    public Node<T>? prev;
+    public T? value { get; set; }
+    public Node<T>? next { get; set; }
+    public Node<T>? prev { get; set; }
 
     public Node(T data)
     {
