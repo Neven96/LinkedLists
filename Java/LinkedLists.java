@@ -13,19 +13,6 @@ public class LinkedLists<T> {
         len = 0;
     }
 
-    static class Node<T> {
-        T value;
-
-        Node<T> next;
-        Node<T> prev;
-
-        public Node(T data) {
-            value = data;
-            next = null;
-            prev = null;
-        }
-    }
-
     //
     //
     // INSERT NODES
