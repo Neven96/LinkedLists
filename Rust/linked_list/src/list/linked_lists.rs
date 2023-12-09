@@ -93,15 +93,12 @@ impl<T: std::clone::Clone + std::fmt::Debug> LinkedList<T> {
             panic!("List is empty")
         }
 
-        if self.length > 0 {
-            let mut current_node = self.get_actual_node(self.head.clone());
+        let mut current_node = self.get_actual_node(self.head.clone());
+        list_array.push(current_node.value.clone());
+
+        while current_node.next.is_some() {
+            current_node = self.get_actual_node(current_node.next.clone());
             list_array.push(current_node.value.clone());
-            
-            while current_node.next.is_some() {
-                current_node = self.get_actual_node(current_node.next.clone());
-                list_array.push(current_node.value.clone());
-            }
-            
         }
 
         return list_array;
